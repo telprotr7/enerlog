@@ -28,7 +28,7 @@ class AcFactory extends Factory
         $jenis = ['Inverter','Non-Inverter'];
         $kapasitas = ['1/2pk','3/4pk','1pk','1,5pk','2pk','2,5pk','2,5pk','3pk','5pk','8pk','10pk'];
         $ruangan = ['Staff Marketing','Staff GSD','OSM BPP','GM GSD','Staff TA','OSM TA'];
-        $btu = ['20.000','9.000','18.0000','5.000'];
+        $btu = ['20.000','9.000','18.000','5.000'];
         $product = ['Thailand','Vietnam','China'];
         $current = ['10 A','1.2 A','16.6 A'];
         $petugasMaint = ['Rinto Harahap', 'Rahmat Abdullah', 'Alim Darmawan', 'Rahmat Hidayatullah', 'Rahmat Haryadi', 'Andriadi Hamid', 'Arif Nur', 'Arif Dg Awing', 'Syahril Dahlan', 'Hasrul'];

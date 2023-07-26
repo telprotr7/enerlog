@@ -12,26 +12,39 @@
         date: false
     });
     $('#date-format').bootstrapMaterialDatePicker({
-        format: 'dddd DD MMMM YYYY - HH:mm'
+        format: 'YYYY-MM-DD'
     });
     $('#date-format2').bootstrapMaterialDatePicker({
-        format: 'dddd DD MMMM YYYY - HH:mm'
+        format: 'dddd DD MMMM YYYY - HH:mm',
+        lang: 'id', // Set lokalisasi bahasa Indonesia
     });
     $('#date-format3').bootstrapMaterialDatePicker({
         format: 'dddd DD MMMM YYYY - HH:mm',
         lang: 'id', // Set lokalisasi bahasa Indonesia
     });
     $('#date-format4').bootstrapMaterialDatePicker({
-        format: 'dddd DD MMMM YYYY - HH:mm',
-        lang: 'id', // Set lokalisasi bahasa Indonesia
+        format: 'YYYY-MM-DD HH:mm',
+        lang: 'id',
     });
     $('#date-format5').bootstrapMaterialDatePicker({
-        format: 'dddd DD MMMM YYYY - HH:mm',
-        lang: 'id', // Set lokalisasi bahasa Indonesia
+        format: 'YYYY-MM-DD HH:mm',
+        lang: 'id',
     });
     $('#date-format6').bootstrapMaterialDatePicker({
         format: 'dddd DD MMMM YYYY - HH:mm',
         lang: 'id', // Set lokalisasi bahasa Indonesia
+    });
+    
+    $('#date-format7').bootstrapMaterialDatePicker({
+        format: 'YYYY-MM-DD HH:mm',
+        lang: 'id',
+    });
+    $('#date-format8').bootstrapMaterialDatePicker({
+        format: 'YYYY-MM-DD HH:mm',
+        lang: 'id',
+    });
+    $('#date-format9').bootstrapMaterialDatePicker({
+        format: 'YYYY-MM-DD HH:mm'
     });
 
     $('#min-date').bootstrapMaterialDatePicker({

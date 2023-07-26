@@ -93,7 +93,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        Ac::factory(27)->create();
+        Ac::factory(170)->create();
         // Task::factory(10)->create();
 
         User::create([

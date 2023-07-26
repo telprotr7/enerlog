@@ -5,7 +5,8 @@
             z-index: 1050;
             position: absolute;
         }
-        .dataTables_filter{
+
+        .dataTables_filter {
             margin-right: 20px;
         }
     </style>
@@ -33,7 +34,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
 
-            <div class="d-flex align-items-center">                
+            <div class="d-flex align-items-center">
                 <button type="button" class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal"
                     data-bs-target=".bd-example-modal-lg">+ Add Task</button>
             </div>
@@ -199,12 +200,19 @@
                                             <td>
                                                 <div class="avatar-list avatar-list-stacked">
                                                     @foreach ($task->users as $user)
-                                                        <img src="{{ asset('assets/images/avatar/' . $user->image) }}"
-                                                            class="avatar rounded-circle" alt=""
-                                                            data-bs-container="body" data-bs-toggle="popover"
-                                                            data-bs-placement="top"
-                                                            data-bs-original-title="{{ $user->name }}"
-                                                            data-bs-trigger="hover" alt="fdfdfd">
+                                                        @if (auth()->user()->image != 'default.png')
+                                                            <img src="{{ asset('storage/' . $user->image) }}"
+                                                                class="avatar rounded-circle" data-bs-container="body"
+                                                                data-bs-toggle="popover" data-bs-placement="top"
+                                                                data-bs-original-title="{{ $user->name }}"
+                                                                data-bs-trigger="hover" alt="">
+                                                        @else
+                                                            <img src="{{ asset('assets/images/avatar/' . $user->image) }}"
+                                                                class="avatar rounded-circle" data-bs-container="body"
+                                                                data-bs-toggle="popover" data-bs-placement="top"
+                                                                data-bs-original-title="{{ $user->name }}"
+                                                                data-bs-trigger="hover" alt="">
+                                                        @endif
                                                     @endforeach
                                                 </div>
                                             </td>
@@ -314,7 +322,7 @@
 
                             <div class="col-md-6 mb-2">
                                 <label class="mb-0" for="end">End Task</label>
-                                <input type="text" class="form-control " name="end" id="date-format4">
+                                <input type="text" class="form-control " name="end" id="date-format6">
                             </div>
                             <div class="col-md-12 mb-2">
                                 <label class="mb-0" class="keterangan">Keterangan <small>(optional)</small></label>
@@ -361,6 +369,4 @@
         });
     </script>
     {{-- END SCRIPT DELETE DATA TASK --}}
-
-
 @endsection

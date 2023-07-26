@@ -414,21 +414,13 @@
     <script src="{{ asset('') }}/assets/js/myNotif.js"></script>
     <script src="{{ asset('assets/js/myScript/funcCreateAC.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#date-format').on('change', function() {
-                var originalDate = $(this).val();
-                var formattedDate = moment(originalDate, 'dddd DD MMMM YYYY - HH:mm').format('YYYY-MM-DD');
-                $(this).val(formattedDate);
-            });
-        });
-    </script>
+
 
     <script>
         $(document).ready(function() {
             $('.datepicker-default').on('change', function() {
                 var originalDate = $(this).val();
-                var formattedDate = moment(originalDate, 'D MMMM, YYYY').format('YYYY-MM-DD HH:mm');
+                var formattedDate = moment(originalDate, 'D MMMM, YYYY').format('YYYY-MM-DD');
                 $(this).val(formattedDate);
             });
         });
@@ -436,12 +428,6 @@
 
     <script>
         $('.single-select').select2({
-            theme: 'bootstrap4',
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            allowClear: Boolean($(this).data('allow-clear')),
-        });
-        $('.multiple-select').select2({
             theme: 'bootstrap4',
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),

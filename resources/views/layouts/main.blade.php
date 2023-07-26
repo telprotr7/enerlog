@@ -187,7 +187,7 @@
 
                             <div class="col-md-6 mb-2">
                                 <label class="mb-0" for="end">End Task</label>
-                                <input type="text" class="form-control " name="end" id="date-format5">
+                                <input type="text" class="form-control " name="end" id="date-format3">
                             </div>
                             <div class="col-md-12 mb-2">
                                 <label class="mb-0" class="keterangan">Keterangan <small>(optional)</small></label>
@@ -442,6 +442,13 @@
 
     <script>
         $('.multiple-select').select2({
+            theme: 'bootstrap4',
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            allowClear: Boolean($(this).data('allow-clear')),
+        });
+
+        $('.single-select').select2({
             theme: 'bootstrap4',
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),

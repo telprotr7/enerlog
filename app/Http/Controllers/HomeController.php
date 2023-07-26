@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ac;
 use Carbon\Carbon;
+use App\Models\Task;
 use App\Models\User;
 use App\Models\Chart;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ class HomeController extends Controller
 {
    public function index()
    {
+
+      $TotalAC = AC::count();
 
       $threeMonthsAgo = Carbon::now()->subMonths(4)->format('Y-m-d H:i');
       // dd($threeMonthsAgo);
@@ -35,20 +38,39 @@ class HomeController extends Controller
          ->count();
 
 
+   // Mendapatkan tanggal hari ini
+    $tanggalHariIni = Carbon::today();
+
+   // Mengurangi 3 bulan dari tanggal hari ini
+    $tanggalTigaBulanKebelakang = $tanggalHariIni->subMonths(3);
+    
+    // Menghitung jumlah hari dalam bulan April (3 bulan kebelakang)
+    $jumlahHariApril = $tanggalTigaBulanKebelakang->daysInMonth;
+
+    // Menghitung jumlah hari dalam bulan Mei (2 bulan kebelakang)
+    $jumlahHariMei = $tanggalTigaBulanKebelakang->daysInMonth;
+    
+    // Mengurangi satu bulan lagi untuk mendapatkan bulan sebelumnya (Juni)
+    $tanggalSatuBulanKebelakang = $tanggalTigaBulanKebelakang->subMonth();
+    
+    // Menghitung jumlah hari dalam bulan Juni
+    $jumlahHariJuni = $tanggalSatuBulanKebelakang->daysInMonth;
+    
+   // Mendapatkan selisih jumlah hari antara tanggal awal bulan ini dan tanggal saat ini
+   $jumlahHariBulanIni = $tanggalHariIni->day;
+
+   // Menghitung total jumlah hari dari ketiga bulan tersebut + bulan ini tanggal ini
+    $jumlahTotalHari = $jumlahHariApril + $jumlahHariJuni + $jumlahHariMei + $jumlahHariBulanIni;
+
       // BULAN INI
-      $jumlahHari = Carbon::now()->daysInMonth;
+      // $jumlahHari = Carbon::now()->daysInMonth;
 
 
+      $persentaseMaintenAC = round(($dataCuciAC / $TotalAC) * 100);
 
-      // BULAN SEBELUMNYA
-      // $bulanSebelumnya = Carbon::now()->subMonth();
-      // $jumlahHari = $bulanSebelumnya->daysInMonth;
+      $persentaseACRusak = round(($countAcRusak /$TotalAC) * 100);
 
-      // dd($jumlahHari);
-
-      $persentaseMaintenAC = round(($dataCuciAC / $jumlahHari) * 100);
-
-      $persentaseACRusak = round(($countAcRusak / $jumlahHari) * 100);
+      $tasks = Task::with('users')->get();
 
 
       $list_tahun = DB::table('chartac')
@@ -60,7 +82,7 @@ class HomeController extends Controller
       return view('home.index', [
          'title' => 'Dashboard',
          'list_tahun' => $list_tahun,
-         'countData' => AC::count(),
+         'totalAC' => $TotalAC,
          'jadwalCuci' => $dataCuciAC,
          'persentaseMaintenAC' => $persentaseMaintenAC,
          'countUsers' => User::count(),
@@ -68,8 +90,9 @@ class HomeController extends Controller
          'kalTahun' => $kalTahun,
          'countAcRusak' => $countAcRusak,
          'persentaseACRusak' => $persentaseACRusak,
-         'jumlahHariBulanLalu' => $jumlahHari,
-         'totalDataPemasanganACBulanIni' => $totalDataPemasanganACBulanIni
+         // 'jumlahHariBulanLalu' => $jumlahTotalAC,
+         'totalDataPemasanganACBulanIni' => $totalDataPemasanganACBulanIni,
+         'tasks' => $tasks
       ]);
    }
 

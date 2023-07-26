@@ -5,10 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CardsController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\ControllingContoller;
+use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\MonitoringController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +70,7 @@ Route::get('/ac/export', [ACController::class, 'exportDataAc'])->middleware('aut
 Route::get('/ac/listmainten', [AcController::class, 'listMainten'])->middleware('auth');
 
 
+
 // CHART
 Route::get('/chart', [ChartController::class, 'index'])->middleware('auth');
 Route::post('/chart/create', [ChartController::class, 'store'])->middleware('auth');
@@ -85,4 +88,19 @@ Route::post('/tasks', [TasksController::class, 'store'])->name('tasks.store');
 Route::get('/tasks/update/{id}', [TasksController::class, 'edit'])->name('tasks.edit');
 Route::post('/tasks/update-data/{id}', [TasksController::class, 'update'])->name('tasks.update');
 Route::get('/tasks/delete/{id}', [TasksController::class, 'destroy'])->name('delete')->middleware('auth');
+
+
+// MONITORING
+Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring')->middleware('auth');
+
+
+
+// CONTROLLING
+Route::get('/controlling', [ControllingContoller::class, 'index'])->name('controlling')->middleware('auth');
+
+
+// ACARA
+Route::resource('/kegiatan', KegiatanController::class);
+Route::get('/kegiatan/range-kegiatan/{nilai}', [KegiatanController::class, 'rangeKegiatan']);
+Route::get('/kegiatan/export/excel', [KegiatanController::class, 'exportDataKegiatan'])->name('kegiatan.export')->middleware('auth');
 

@@ -19,7 +19,7 @@ class AcController extends Controller
     public function index()
     {
 
-       
+
         $data = Ac::all();
         return view('AC.index', [
             'title' => 'List AC',
@@ -68,8 +68,8 @@ class AcController extends Controller
                 return !empty($input->label);
             });
         }
-        
-      
+
+
 
         if ($validator->fails()) {
             return back()
@@ -131,13 +131,6 @@ class AcController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ac $ac)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -146,7 +139,7 @@ class AcController extends Controller
     {
         $old = AC::find($id);
 
-        // dd($request->tgl_pemasangan);
+        // dd($request->petugas_maint);
 
         $validator = Validator::make($request->all(), [
             'wing' => 'required',
@@ -235,7 +228,7 @@ class AcController extends Controller
             'status' => $request->status,
             'catatan' => $request->catatan,
             'kerusakan' => $request->kerusakan,
-            'keterangan' => $request->keterangan,
+            'keterangan' => $request->keterangan_edit,
             'petugas_pemasangan' => $request->petugas_pemasangan,
             'tgl_maintenance' => $request->tgl_maintenance,
             'petugas_maint' => $petugas_maint,
@@ -374,5 +367,104 @@ class AcController extends Controller
         }
 
         return response()->json($responseData);
+    }
+
+
+    // SEMUA FUNGSI API
+
+    public function getDataAc()
+    {
+        // $data = Ac::all(['tgl_pemasangan','petugas_pemasangan','label','assets','wing','lantai','ruangan','merk','type','jenis','kapasitas','refrigerant','product','current','voltage','btu','pipa','seri_indoor','seri_outdoor','status','catatan','kerusakan','keterangan']);
+        $data = Ac::all(['id', 'label', 'wing', 'lantai', 'ruangan', 'type', 'status']);
+
+        if ($data) {
+            return response()->json($data);
+        } else {
+            return response()->json(['error' => 'Not Found!']);
+        }
+    }
+
+    public function getDataAcDetails($id)
+    {
+        $dataDetail = Ac::find($id);
+        if ($dataDetail) {
+            return response()->json($dataDetail);
+        } else {
+            return response()->json(['error' => 'Not Found!']);
+        }
+    }
+
+    public function AcDelete($id)
+    {
+        $dataDetail = Ac::find($id);
+
+        if ($dataDetail) {
+            $dataDetail->delete();
+            return response()->json(['success' => 'Data deleted successfully']);
+        } else {
+            return response()->json(['error' => 'Not Found!']);
+        }
+    }
+    public function AcUpdate(Request $request, $id)
+    {
+
+        // Aturan validasi
+        $rules = [
+            'tgl_maintenance' => 'required|date',
+            'petugas_maint' => 'required|string',
+        ];
+
+        // Pesan error custom untuk setiap aturan
+        $messages = [
+            'tgl_maintenance.required' => 'Tanggal maintenance harus diisi.',
+            'tgl_maintenance.date' => 'Format tanggal maintenance tidak valid.',
+            'petugas_maint.required' => 'Petugas maintenance harus diisi.',
+            'petugas_maint.string' => 'Format petugas maintenance tidak valid.',
+        ];
+
+        // Validasi data
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        // Jika validasi gagal, kembalikan pesan error
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $old = AC::find($id);
+
+        if ($request->tgl_maintenance != $old->tgl_maintenance) {
+            $iniBulan = Carbon::now()->format("F");
+            $tahunIni = Carbon::now()->format("Y");
+
+            $chartAc = Chart::where('bulan', $iniBulan)
+                ->where('tahun', $tahunIni)
+                ->first();
+
+            if ($chartAc) {
+                $chartAc->total++;
+                $chartAc->save();
+            } else {
+                Chart::create([
+                    'tahun' => $tahunIni,
+                    'bulan' => $iniBulan,
+                    'total' => 1,
+                ]);
+            }
+        }
+
+        // Proses nilai "petugas_maint" dari string menjadi array yang terpisah
+        $petugasArr = explode(", ", $request->petugas_maint);
+
+        // Ambil array dan gabungkan sebagai string yang dipisahkan koma
+        $petugas = implode(", ", $petugasArr);
+
+        $data = [
+            'tgl_maintenance' => $request->tgl_maintenance,
+            'petugas_maint' => $petugas,
+        ];
+
+        AC::where('id', $id)
+            ->update($data);
+        return response()->json(['success' => 'Updated successfully']);
     }
 }

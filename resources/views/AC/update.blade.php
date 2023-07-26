@@ -46,9 +46,9 @@
                             <div class="col-md-4">
                                 <label for="tgl_maintenance" class="form-label">Tanggal Maintenance</label>
                                 <input
-                                    class="datepicker-default form-control picker__input picker__input--active picker__input--target"
+                                    class="form-control"
                                     type="text" name="tgl_maintenance"
-                                    value="{{ old('tgl_maintenance', $ac->tgl_maintenance) }}">
+                                    value="{{ old('tgl_maintenance', $ac->tgl_maintenance) }}" id="date-format9">
                                 {{--  --}}
                             </div>
                             <div class="col-md-12">
@@ -274,7 +274,7 @@
                             </div>
                             <div class="col-6" id="colKeteranganUpdate">
                                 <label class="form-label">Keterangan</label>
-                                <textarea class="form-control" name="keterangan" id="keterangan" rows="4" cols="4" value=""
+                                <textarea class="form-control" name="keterangan_edit" id="keterangan" rows="4" cols="4" value=""
                                     placeholder="Masukan keterangan jika ada!">{{ old('keterangan', $ac->keterangan) }}</textarea>
                             </div>
                             <div class="col-12">
@@ -306,7 +306,7 @@
 
 
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#date-format').on('change', function() {
                 var originalDate = $(this).val();
@@ -314,13 +314,13 @@
                 $(this).val(formattedDate);
             });
         });
-    </script>
+    </script> --}}
 
     <script>
         $(document).ready(function() {
             $('.datepicker-default').on('change', function() {
                 var originalDate = $(this).val();
-                var formattedDate = moment(originalDate, 'D MMMM, YYYY').format('YYYY-MM-DD HH:mm');
+                var formattedDate = moment(originalDate, 'D MMMM, YYYY').format('YYYY-MM-DD');
                 $(this).val(formattedDate);
             });
         });
@@ -367,21 +367,6 @@
         setTimeout(() => {
             label.classList.remove('is-invalid');
         }, 10000);
-    </script>
-
-    <script>
-        $('.single-select').select2({
-            theme: 'bootstrap4',
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            allowClear: Boolean($(this).data('allow-clear')),
-        });
-        $('.multiple-select').select2({
-            theme: 'bootstrap4',
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            allowClear: Boolean($(this).data('allow-clear')),
-        });
     </script>
 
     <script>
